@@ -10,7 +10,7 @@ err = None
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(levelname)s %(message)s',
-                    filename='/tmp/myapp.log',
+                    filename='/tmp/svnreview.log',
                     filemode='w')
 
 def getFileList():
@@ -35,6 +35,8 @@ def initCurses():
     global stdscr 
     global pad
     stdscr = curses.initscr()
+    curses.start_color()
+    curses.use_default_colors()
     curses.noecho()
     curses.cbreak()
     stdscr.keypad(1)
@@ -151,6 +153,12 @@ def main():
             elif c == curses.KEY_LEFT: 
                 logging.debug("KEY_LEFT")
                 move(-getMaxLines())
+            elif c == curses.KEY_ENTER or c == 10:
+                logging.debug("KEY_ENTER")
+                curses.def_prog_mode()
+                curses.endwin()
+                os.system('clear && svn diff "' + filelist[currentLine]["file"] + '" | less')
+                stdscr.refresh()
             elif 0 <= c <= 256 and chr(c).isdigit():
                 destination = 10
                 if chr(c) != 0:
