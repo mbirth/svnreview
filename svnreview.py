@@ -159,7 +159,7 @@ def main():
                 logging.debug("KEY_ENTER")
                 curses.def_prog_mode()
                 curses.endwin()
-                os.system('clear && svn diff "' + filelist[currentLine]["file"] + '" | less')
+                os.system('clear && svn diff "' + filelist[currentLine]["file"] + '" --diff-cmd=colordiff | less -r')
                 stdscr.refresh()
             elif 0 <= c <= 256 and chr(c).isdigit():
                 destination = 10
