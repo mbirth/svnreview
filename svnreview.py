@@ -1,4 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import os
 import curses
 import logging
@@ -63,7 +65,7 @@ def redraw():
     global err
     global page
     maxLines = getMaxLines()
-    page = currentLine / maxLines
+    page = currentLine // maxLines
     start = page * maxLines
     stdscr.erase()
     for linenumber, fileinfo in enumerate(filelist[start:start + maxLines]):
@@ -73,7 +75,7 @@ def redraw():
             fileinfo['checkmark'] = ' '
         try:
             stdscr.addstr(linenumber, 0, line_format % fileinfo, curses.A_BOLD)
-        except Exception, err:
+        except Exception as err:
             logging.error(err)
     if len(filelist) == 0:
         stdscr.addstr(0, 0, "No files changes - press 'q' to quit", curses.A_BOLD)
@@ -165,10 +167,10 @@ def main():
                     destination = int(chr(c)) - 1
                 gotoPage(destination)
 
-    except Exception, err:
+    except Exception as err:
         logging.error(err)
     cleanupCurses()
-    print " ".join(f["file"] for f in filelist if f["checked"])
+    print(' '.join(f["file"] for f in filelist if f["checked"]))
 
 if __name__ == "__main__":
     main()
